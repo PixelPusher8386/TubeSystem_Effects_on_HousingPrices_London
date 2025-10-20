@@ -1,6 +1,8 @@
 Coursework for HE3027: Housing Economics (NTU, AY25/26)
 TubeSystem_Effects_on_HousingPrices_London
 
+References: https://www.r-bloggers.com/2021/02/reghdfe-and-r-the-joys-of-standard-error-correction
+
 This is my thought process to "divide and conquer" the dataset
 
 1. Generate natural logarithm of price, add this as a new column. This adjusts for outliers.
