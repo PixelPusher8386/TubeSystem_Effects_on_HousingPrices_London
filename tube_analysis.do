@@ -20,14 +20,6 @@ generate lnprice = ln(price)
 generate newbuild = 1 if age=="Y" 
 replace newbuild = 0 if newbuild==.
 
-* Let's say you believe that people only pay for proximity to tube stations if it is within 200m from your house (walkable distance), we can recode this variables.
-generate tube_near = 1 if tube_distnear<=200 //again, we are creating a dummy variable here: = 1 if it is within 200m from the tube station, 0 otherwise. 
-replace tube_near = 0 if tube_near==. //now we are comparing those within 200m from those beyond 200m. You can change this parameter by changing the distance defined
-
-generate bus_near = 1 if bus_distnear<=200 //again, we are creating a dummy variable here: = 1 if it is within 200m from the bus station, 0 otherwise. 
-replace bus_near = 0 if bus_near==. //now we are comparing those within 200m from those beyond 200m. You can change this parameter by changing the distance defined
-
-
 // ------------------------------- Modeling ------------------------------------
 ** Simple model 1: assess only the structural characteristics of the house. 
 reg lnprice detached_dum semi_d_dum terrace_dum freehold newbuild, robust
@@ -51,3 +43,4 @@ est store reg3
 // Model 3b: control for year & granular area (msoa)
 reghdfe lnprice detached_dum semi_d_dum terrace_dum freehold newbuild station_km thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
 est store reg4
+
