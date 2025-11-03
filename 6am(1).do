@@ -53,63 +53,40 @@ est store reg3b
 ** Distance from the nearest tube station may not affect House price linearly
 ** Intuitively, if one's nearest tube station is 8km away, one is unlikely to take the tube
 ** And hence, distance from station will affect house prices less than the case of the station being 100 meters away
+** Taking inspiration from Gibbons' transport innovation method (2km is the walkable distance)
 
-// Repeating Model 3a but for distance bins of 1km each, 8 such bins
-generate dist1 = 1 if (station_km < 1)
-generate dist2 = 1 if (station_km >= 1 & station_km < 2)
-generate dist3 = 1 if (station_km >= 2 & station_km < 3)
-generate dist4 = 1 if (station_km >= 3 & station_km < 4)
-generate dist5 = 1 if (station_km >= 4 & station_km < 5)
-generate dist6 = 1 if (station_km >= 5 & station_km < 6
-generate dist7 = 1 if (station_km >= 6 & station_km < 7)
-generate dist8 = 1 if (station_km >= 7 & station_km < 8)
-recode dist1 dist2 dist3 dist4 dist5 dist6 dist7 dist8 (.=0)
+generate dist1 = 1 if (station_km <= 2)
+replace dist1 = 0 if dist1==.
 
-reghdfe lnprice dist1 dist2 dist3 dist4 dist5 dist6 dist7 dist8 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
-
-//Repeating 3b for distance bins of 1km
-reghdfe lnprice dist1 dist2 dist3 dist4 dist5 dist6 dist7 dist8 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
+// Repeating Model 3a
+reghdfe lnprice dist1 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
+reghdfe lnprice dist1 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
 
 ** Model 5: Categorical Approach to Distance, by meter
 ** Distance from the nearest tube station may not affect House price linearly
 ** Intuitively, if one's nearest tube station is 1km away, one is unlikely to take the tube
 ** And hence, distance from station will affect house prices less than the case of the station being 100 meters away
 
-//Repeating 3a for distance bins of 100m, up to 1.5km
-generate walk1 = 1 if (station_km < 0.1)
-generate walk2 = 1 if (station_km >= 0.1 & station_km < 0.2)
-generate walk3 = 1 if (station_km >= 0.2 & station_km < 0.3)
-generate walk4 = 1 if (station_km >= 0.3 & station_km < 0.4)
-generate walk5 = 1 if (station_km >= 0.4 & station_km < 0.5)
-generate walk6 = 1 if (station_km >= 0.5 & station_km < 0.6)
-generate walk7 = 1 if (station_km >= 0.6 & station_km < 0.7)
-generate walk8 = 1 if (station_km >= 0.7 & station_km < 0.8)
-generate walk9 = 1 if (station_km >= 0.8 & station_km < 0.9)
-generate walk10 = 1 if (station_km >= 0.9 & station_km < 1)
-generate walk11 = 1 if (station_km >= 1 & station_km < 1.1)
-generate walk12 = 1 if (station_km >= 1.1 & station_km < 1.2)
-generate walk13 = 1 if (station_km >= 1.2 & station_km < 1.3)
-generate walk14 = 1 if (station_km >= 1.3 & station_km < 1.4)
-generate walk15 = 1 if (station_km >= 1.4 & station_km < 1.5)
-recode walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 walk11 walk12 walk13 walk14 walk15  (.=0)
+generate walk1 = 1 if (station_km < 0.2)
+generate walk2 = 1 if (station_km >= 0.2 & station_km < 0.4)
+generate walk3 = 1 if (station_km >= 0.4 & station_km < 0.6)
+generate walk4 = 1 if (station_km >= 0.6 & station_km < 0.8)
+generate walk5 = 1 if (station_km >= 0.8 & station_km < 1)
+generate walk6 = 1 if (station_km >= 1 & station_km < 1.2)
+generate walk7 = 1 if (station_km >= 1.2 & station_km < 1.4)
+generate walk8 = 1 if (station_km >= 1.4 & station_km < 1.6)
+generate walk9 = 1 if (station_km >= 1.6 & station_km < 1.8)
+generate walk10 = 1 if (station_km >= 1.8 & station_km < 2)
 
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 walk11 walk12 walk13 walk14 walk15 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
+recode walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 (.=0)
 
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 walk11 walk12 walk13 walk14 walk15 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
+//Repeating 3a & 3b
+reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust) if station_km<=2
+reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust) if station_km<=2
 
-// only statistically significant walking distnace
-// reghdfe lnprice walk1 walk2 walk3 walk8 walk9 walk10 walk11 walk12 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
-// reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 walk11 walk12 walk13 walk14 walk15 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
-
-** Model 6: square of distance
+** Model 6a&6b: square of distance
 // sq_dist msoa11 absorbed
 generate sq_dist = station_km*station_km
 scatter lnprice sq_dist
 reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
 reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
-
-** Model 7: cube of distance
-generate cb_dist = station_km*station_km*station_km
-scatter lnprice cb_dist
-reghdfe lnprice cb_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
-reghdfe lnprice cb_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
