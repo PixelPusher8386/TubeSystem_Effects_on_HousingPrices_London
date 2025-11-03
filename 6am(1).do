@@ -2,11 +2,7 @@
 ** Opening dataset 
 //u land_registry_tube.dta, clear
 . use "C:\Users\CHI011\Downloads\project_data\land_registry_tube.dta"
-
-** Installing reghdfe - a statistical package that allows you to include fixed effects (area and/or time). ssc install allow us to install additional packages. The command capture: in front allow us avoid stopping despite facing errors.
 capture: ssc install reghdfe
-
-** Installing outreg2 - a package useful for exporting results. 
 capture: ssc install outreg2
 ssc install ftools
 
@@ -18,8 +14,8 @@ drop tube_distnear day OA01CD OA11CD postcode LA area_code descriptio code_year 
 generate lnprice = ln(price)
 
 // Based on a quick linear regression of the independent and dependent, we identify outliers
-scatter lnprice station_km, title("Distance to Nearest Station vs. Natural Logarithm of House Price")
-drop if station_km > 100
+** scatter lnprice station_km, title("Distance to Nearest Station vs. Natural Logarithm of House Price")
+** drop if station_km > 100
 
 ** For column age, replace Y as 1 and N as 0. Base dummy is "newbuild is 1"
 generate newbuild = 1 if age=="Y" 
@@ -27,12 +23,12 @@ replace newbuild = 0 if newbuild==.
 
 // ------------------------------- Modeling ------------------------------------
 ** Simple model 1: assess only the structural characteristics of the house. 
-reg lnprice detached_dum semi_d_dum terrace_dum freehold newbuild, robust
-est store reg1
+** reg lnprice detached_dum semi_d_dum terrace_dum freehold newbuild, robust
+** est store reg1
 
 ** Model 2: include all variables in Model 1, and adding on "station_km"
-reg lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild, robust
-est store reg2
+** reg lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild, robust
+** est store reg2
 
 ** Model 3: Control for (1) Area fixed effects & (2) Year fixed effects
 ** 1. for time-invariant unobservables specific to a particular area. 
@@ -42,12 +38,12 @@ est store reg2
 ** 2. for general changes in house prices across areas over time.
 
 ** Model 3a: control for year & large-scale area (msoa11)
-reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
-est store reg3a
+** reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
+** est store reg3a
 
 // Model 3b: control for year & granular area (lsoa)
-reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
-est store reg3b
+** reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
+** est store reg3b
 
 ** Model 4: Categorical Approach to Distance, by kilometer
 ** Distance from the nearest tube station may not affect House price linearly
