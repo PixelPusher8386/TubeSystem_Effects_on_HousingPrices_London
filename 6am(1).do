@@ -83,10 +83,3 @@ recode walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 (.=0)
 //Repeating 3a & 3b
 reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust) if station_km<=2
 reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust) if station_km<=2
-
-** Model 6a&6b: square of distance
-// sq_dist msoa11 absorbed
-generate sq_dist = station_km*station_km
-scatter lnprice sq_dist
-reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
-reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
