@@ -26,6 +26,8 @@ generate sq_dist = station_km*station_km
 
 reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
 est store quad_a
+outreg2 using myreg.doc, replace ctitle("MSOA control")
 
 reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
 est store quad_b
+outreg2 using myreg.doc, append ctitle("LSOA control")
