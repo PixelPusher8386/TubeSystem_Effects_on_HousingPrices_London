@@ -1,7 +1,7 @@
 // --------------------------- Load Neccessary Packages ------------------------
 ** Opening dataset 
 //u land_registry_tube.dta, clear
-. use "C:\Users\CHI011\Downloads\project_data\land_registry_tube.dta"
+. use "D:\Documents\project_data\land_registry_tube.dta"
 
 ** Installing reghdfe - a statistical package that allows you to include fixed effects (area and/or time). ssc install allow us to install additional packages. The command capture: in front allow us avoid stopping despite facing errors.
 capture: ssc install reghdfe
@@ -26,11 +26,7 @@ generate newbuild = 1 if age=="Y"
 replace newbuild = 0 if newbuild==.
 
 // ------------------------------- Modeling ------------------------------------
-** Simple model 1: assess only the structural characteristics of the house. 
-reg lnprice detached_dum semi_d_dum terrace_dum freehold newbuild, robust
-est store reg1
-
-** Model 2: include all variables in Model 1, and adding on "station_km"
+** Model 2: structural characteristics of the house and adding on "station_km"
 reg lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild, robust
 est store reg2
 
@@ -72,14 +68,14 @@ generate walk2 = 1 if (station_km >= 0.2 & station_km < 0.4)
 generate walk3 = 1 if (station_km >= 0.4 & station_km < 0.6)
 generate walk4 = 1 if (station_km >= 0.6 & station_km < 0.8)
 generate walk5 = 1 if (station_km >= 0.8 & station_km < 1)
-generate walk6 = 1 if (station_km >= 1 & station_km < 1.2)
-generate walk7 = 1 if (station_km >= 1.2 & station_km < 1.4)
-generate walk8 = 1 if (station_km >= 1.4 & station_km < 1.6)
-generate walk9 = 1 if (station_km >= 1.6 & station_km < 1.8)
-generate walk10 = 1 if (station_km >= 1.8 & station_km < 2)
 
-recode walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 (.=0)
+recode walk1 walk2 walk3 walk4 walk5 (.=0)
 
 //Repeating 3a & 3b
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust) if station_km<=2
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust) if station_km<=2
+reghdfe lnprice walk1 walk2 walk3 walk4 walk5 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust) if station_km<=1
+reghdfe lnprice walk1 walk2 walk3 walk4 walk5 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust) if station_km<=1
+
+** Model 7a&7b: quadratic  distance
+// sq_dist msoa11 absorbed
+reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
+reghdfe lnprice sq_dist station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
