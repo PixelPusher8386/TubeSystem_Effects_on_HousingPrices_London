@@ -1,0 +1,46 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx2160\clbrdrt\brdrs\cellx4032\clbrdrt\brdrs\cellx5904
+\ql \cell\qc (1)\cell\qc (2)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx2160\cellx4032\cellx5904
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx2160\clbrdrb\brdrs\cellx4032\clbrdrb\brdrs\cellx5904
+\ql VARIABLES\cell\qc MSOA control\cell\qc LSOA control\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx2160\cellx4032\cellx5904
+\ql \cell\qc \cell\qc \cell\row
+\ql sq_dist\cell\qc 0.00306***\cell\qc 0.00955***\cell\row
+\ql \cell\qc (0.000863)\cell\qc (0.00159)\cell\row
+\ql station_km\cell\qc -0.00813***\cell\qc 0.00448\cell\row
+\ql \cell\qc (0.00211)\cell\qc (0.00363)\cell\row
+\ql detached_dum\cell\qc 0.710***\cell\qc 0.640***\cell\row
+\ql \cell\qc (0.00354)\cell\qc (0.00344)\cell\row
+\ql semi_d_dum\cell\qc 0.337***\cell\qc 0.320***\cell\row
+\ql \cell\qc (0.00296)\cell\qc (0.00286)\cell\row
+\ql terrace_dum\cell\qc 0.197***\cell\qc 0.196***\cell\row
+\ql \cell\qc (0.00288)\cell\qc (0.00278)\cell\row
+\ql freehold\cell\qc 0.339***\cell\qc 0.359***\cell\row
+\ql \cell\qc (0.00287)\cell\qc (0.00278)\cell\row
+\ql newbuild\cell\qc 0.192***\cell\qc 0.175***\cell\row
+\ql \cell\qc (0.00138)\cell\qc (0.00144)\cell\row
+\ql thamesriv_dist\cell\qc -2.37e-05***\cell\qc -2.55e-05***\cell\row
+\ql \cell\qc (1.18e-06)\cell\qc (2.57e-06)\cell\row
+\ql dist_to_cbd\cell\qc -0.0240***\cell\qc -0.00951***\cell\row
+\ql \cell\qc (0.00112)\cell\qc (0.00258)\cell\row
+\ql bus_distnear\cell\qc 0.000281***\cell\qc 0.000229***\cell\row
+\ql \cell\qc (3.58e-06)\cell\qc (4.10e-06)\cell\row
+\ql grossannualpay\cell\qc 5.27e-06***\cell\qc 5.75e-06***\cell\row
+\ql \cell\qc (3.18e-07)\cell\qc (3.00e-07)\cell\row
+\ql jobdensity\cell\qc 0.500***\cell\qc 0.510***\cell\row
+\ql \cell\qc (0.00796)\cell\qc (0.00757)\cell\row
+\ql hoursworked\cell\qc 0.0137***\cell\qc 0.0125***\cell\row
+\ql \cell\qc (0.000942)\cell\qc (0.000892)\cell\row
+\ql unemployment\cell\qc -0.0185***\cell\qc -0.0194***\cell\row
+\ql \cell\qc (0.000343)\cell\qc (0.000325)\cell\row
+\ql Constant\cell\qc 11.75***\cell\qc 11.61***\cell\row
+\ql \cell\qc (0.0405)\cell\qc (0.0443)\cell\row
+\ql \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 1,126,223\cell\qc 1,126,222\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx2160\clbrdrb\brdrs\cellx4032\clbrdrb\brdrs\cellx5904
+\ql R-squared\cell\qc 0.681\cell\qc 0.721\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}
