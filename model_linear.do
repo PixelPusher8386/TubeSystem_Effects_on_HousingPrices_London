@@ -37,28 +37,9 @@ replace newbuild = 0 if newbuild==.
 ** Model 3a: control for year & large-scale area (msoa11)
 reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust)
 est store reg3a
-outreg using mydoc.doc, replace ctitle ("MSOA control")
+outreg2 using mydoc.doc, replace ctitle ("MSOA control")
 
 // Model 3b: control for year & granular area (lsoa)
 reghdfe lnprice station_km detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust)
 est store reg3b
-outreg using mydoc.doc, append ctitle ("LSOA control")
-
-** Model 5: Categorical Approach to Distance, by meter
-** Distance from the nearest tube station may not affect House price linearly
-** Intuitively, if one's nearest tube station is 1km away, one is unlikely to take the tube
-** And hence, distance from station will affect house prices less than the case of the station being 100 meters away
-
-generate walk1 = 1 if (station_km < 0.2)
-generate walk2 = 1 if (station_km >= 0.2 & station_km < 0.4)
-generate walk3 = 1 if (station_km >= 0.4 & station_km < 0.6)
-generate walk4 = 1 if (station_km >= 0.6 & station_km < 0.8)
-generate walk5 = 1 if (station_km >= 0.8 & station_km < 1)
-
-recode walk1 walk2 walk3 walk4 walk5 (.=0)
-
-//Repeating 3a & 3b
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year msoa11) vce(robust) if station_km<=1
-outreg using categorical.doc, replace ctitle ("MSOA control")
-reghdfe lnprice walk1 walk2 walk3 walk4 walk5 detached_dum semi_d_dum terrace_dum freehold newbuild thamesriv_dist dist_to_cbd bus_distnear grossannualpay jobdensity hoursworked unemployment, absorb(year lsoacode) vce(robust) if station_km<=1
-outreg using categorical.doc, append ctitle ("LSOA control")
+outreg2 using mydoc.doc, append ctitle ("LSOA control")
